@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pac-Man Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <div class="game-header">
+            <div class="score">Score: <span id="score">0</span></div>
+            <div class="lives">Lives: <span id="lives">3</span></div>
+            <div class="high-score">High Score: <span id="high-score">0</span></div>
+        </div>
+        
+        <div class="game-board" id="gameBoard">
+            <!-- Game maze will be generated here -->
+        </div>
+        
+        <div class="game-status" id="gameStatus">
+            <div class="message" id="message">Use arrow keys to move Pac-Man!</div>
+            <button id="startButton" onclick="startGame()">Start Game</button>
+            <button id="restartButton" onclick="restartGame()" style="display: none;">Restart</button>
+        </div>
+        
+        <div class="controls">
+            <p>Use arrow keys to move Pac-Man</p>
+            <p>Avoid the red ghost and eat all the dots to win!</p>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,316 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #000;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.game-container {
+    text-align: center;
+    max-width: 600px;
+    width: 100%;
+}
+
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    background-color: #1a1a1a;
+    border-radius: 10px;
+    border: 2px solid #00f;
+}
+
+.score, .lives, .high-score {
+    font-size: 18px;
+    font-weight: bold;
+    color: #ff0;
+}
+
+.game-board {
+    width: 500px;
+    height: 500px;
+    margin: 0 auto;
+    background-color: #000;
+    border: 3px solid #00f;
+    border-radius: 10px;
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(25, 1fr);
+    grid-template-rows: repeat(25, 1fr);
+    gap: 1px;
+}
+
+.cell {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background-color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wall {
+    background-color: #0066ff;
+    border: 1px solid #0088ff;
+    box-shadow: inset 1px 1px 2px rgba(255,255,255,0.2);
+}
+
+.dot {
+    background-color: #000;
+    position: relative;
+}
+
+.dot::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 4px;
+    height: 4px;
+    background-color: #ffff00;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.power-dot {
+    background-color: #000;
+    position: relative;
+}
+
+.power-dot::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+    background-color: #ffff00;
+    border-radius: 50%;
+    animation: pulse 1s infinite;
+    z-index: 1;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.pacman {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    background-color: #ffff00;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    transition: all 0.1s ease;
+    border: 1px solid #ffcc00;
+}
+
+.pacman::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border: 9px solid transparent;
+    transform-origin: center;
+    animation: chomp 0.3s infinite;
+}
+
+.pacman.right::before {
+    border-left: 9px solid #000;
+    transform: translate(-50%, -50%) rotate(0deg);
+}
+
+.pacman.left::before {
+    border-right: 9px solid #000;
+    transform: translate(-50%, -50%) rotate(180deg);
+}
+
+.pacman.up::before {
+    border-bottom: 9px solid #000;
+    transform: translate(-50%, -50%) rotate(270deg);
+}
+
+.pacman.down::before {
+    border-top: 9px solid #000;
+    transform: translate(-50%, -50%) rotate(90deg);
+}
+
+@keyframes chomp {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-50%, -50%) scale(0.8); }
+}
+
+.ghost {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    background-color: #ff0000;
+    border-radius: 50% 50% 0 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9;
+    transition: all 0.15s ease;
+    border: 1px solid #cc0000;
+}
+
+.ghost-pink {
+    background-color: #ffb6c1;
+    border-color: #ff69b4;
+}
+
+.ghost-cyan {
+    background-color: #00ffff;
+    border-color: #00cccc;
+}
+
+.ghost::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: linear-gradient(90deg, 
+        #ff0000 0%, #ff0000 20%, 
+        transparent 20%, transparent 40%,
+        #ff0000 40%, #ff0000 60%,
+        transparent 60%, transparent 80%,
+        #ff0000 80%, #ff0000 100%);
+}
+
+.ghost-pink::after {
+    background: linear-gradient(90deg, 
+        #ffb6c1 0%, #ffb6c1 20%, 
+        transparent 20%, transparent 40%,
+        #ffb6c1 40%, #ffb6c1 60%,
+        transparent 60%, transparent 80%,
+        #ffb6c1 80%, #ffb6c1 100%);
+}
+
+.ghost-cyan::after {
+    background: linear-gradient(90deg, 
+        #00ffff 0%, #00ffff 20%, 
+        transparent 20%, transparent 40%,
+        #00ffff 40%, #00ffff 60%,
+        transparent 60%, transparent 80%,
+        #00ffff 80%, #00ffff 100%);
+}
+
+.ghost-eyes {
+    position: absolute;
+    top: 25%;
+    left: 20%;
+    width: 60%;
+    height: 40%;
+}
+
+.ghost-eyes::before,
+.ghost-eyes::after {
+    content: '';
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background-color: #fff;
+    border-radius: 50%;
+    top: 0;
+}
+
+.ghost-eyes::before {
+    left: 20%;
+}
+
+.ghost-eyes::after {
+    right: 20%;
+}
+
+.game-status {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #1a1a1a;
+    border-radius: 10px;
+    border: 2px solid #00f;
+}
+
+.message {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: #ff0;
+    font-weight: bold;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #ff0;
+    color: #000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin: 0 10px;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background-color: #ffff00;
+    transform: scale(1.05);
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+.controls {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #1a1a1a;
+    border-radius: 10px;
+    border: 2px solid #00f;
+    font-size: 14px;
+    color: #ccc;
+}
+
+.controls p {
+    margin: 5px 0;
+}
+
+.game-over {
+    animation: gameOver 0.5s ease-in-out;
+}
+
+@keyframes gameOver {
+    0% { opacity: 1; }
+    50% { opacity: 0.3; }
+    100% { opacity: 1; }
+}
+
+.win {
+    animation: win 1s ease-in-out;
+}
+
+@keyframes win {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
